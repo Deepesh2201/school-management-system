@@ -13,9 +13,7 @@
             <li class="<?php echo set_SubSubmenu('schsettings/backendtheme'); ?>">
                 <a class="<?php echo set_SubSubmenu('schsettings/backendtheme'); ?>" href="<?php echo site_url('schsettings/backendtheme') ?>"><?php echo $this->lang->line('backend_theme'); ?></a>
             </li>
-            <li class="<?php echo set_SubSubmenu('schsettings/mobileapp'); ?>">
-                <a class="<?php echo set_SubSubmenu('schsettings/mobileapp'); ?>" href="<?php echo site_url('schsettings/mobileapp') ?>"><?php echo $this->lang->line('mobile_app'); ?></a>
-            </li>
+           
             <li class="<?php echo set_SubSubmenu('schsettings/studentguardianpanel'); ?>">
                 <a class="<?php echo set_SubSubmenu('schsettings/studentguardianpanel'); ?>" href="<?php echo site_url('schsettings/studentguardianpanel') ?>"><?php echo $this->lang->line('student_guardian_panel'); ?></a>
             </li>
