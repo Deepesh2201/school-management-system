@@ -74,7 +74,11 @@ class Smsconfig_model extends MY_Model {
         $this->db->select()->from('sms_config');
         $this->db->where('is_active', 'enabled');
         $query = $this->db->get();
-        return $query->row();
+        $row   = $query->row();
+        if (empty($row)) {
+            $row = (object) array('type' => 'twofactor', 'api_id' => '', 'authkey' => '', 'senderid' => 'ACAMP', 'contact' => '', 'username' => '', 'url' => '', 'password' => '', 'is_active' => 'enabled');
+        }
+        return $row;
     }
 
 }

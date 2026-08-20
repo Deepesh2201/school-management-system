@@ -105,7 +105,7 @@ echo $this->session->flashdata('msg');
                         </div><!-- box body-->
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_2">
-                            <form role="form" id="twilio" id="twilio" action="<?php echo site_url('smsconfig/twilio') ?>" method="post">
+                            <form role="form" id="twilio" id="twilio" action="<?php echo site_url('admin/onlineadmission/admissionsetting') ?>" method="post">
                                 <div class="">
                                     <div class="row">
                                             <div class="col-sm-10">

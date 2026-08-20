@@ -304,7 +304,6 @@ if (!function_exists('main_menu_array')) {
                 'schsettings'           => array('index','logo','miscellaneous','backendtheme','mobileapp','studentguardianpanel','fees','idautogeneration','attendancetype','maintenance','whatsappsettings'),                     
                 'sessions'              => array('index','edit'),                     
                 'notification'          => array('setting'),                     
-                'smsconfig'             => array('index'),                     
                 'emailconfig'           => array('index'),                     
                 'paymentsettings'       => array('index'),                     
                 'print_headerfooter'    => array('index'),                     
