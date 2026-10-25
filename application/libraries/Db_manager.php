@@ -36,4 +36,24 @@ class Db_manager
 
     }
 
+    /**
+     * Switch the active database connection to a configured group
+     * (e.g. 'default' or 'branch_{id}') and make it visible to models.
+     */
+    public function switch_group($db_group)
+    {
+        if (empty($db_group)) {
+            return $this->CI->db;
+        }
+
+        $new_db = $this->CI->load->database($db_group, true);
+
+        if ($new_db) {
+            $this->CI->db = $new_db;
+            $this->db     = $new_db;
+        }
+
+        return $new_db;
+    }
+
 }

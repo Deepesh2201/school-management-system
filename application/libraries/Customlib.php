@@ -1028,6 +1028,47 @@ class Customlib
         }
     }
 
+    public function getCurrentBranchId()
+    {
+        $admin = $this->CI->session->userdata('admin');
+        if ($admin && isset($admin['branch_id'])) {
+            return (int) $admin['branch_id'];
+        }
+        return 0;
+    }
+
+    public function getCurrentBranchName()
+    {
+        $admin = $this->CI->session->userdata('admin');
+        if ($admin && isset($admin['branch_name'])) {
+            return $admin['branch_name'];
+        }
+        return '';
+    }
+
+    public function getCurrentDbGroup()
+    {
+        $admin = $this->CI->session->userdata('admin');
+        if ($admin && isset($admin['db_array']['db_group'])) {
+            return $admin['db_array']['db_group'];
+        }
+        return 'default';
+    }
+
+    public function getAllowedBranches()
+    {
+        $admin = $this->CI->session->userdata('admin');
+        if ($admin && !empty($admin['allowed_branches'])) {
+            return $admin['allowed_branches'];
+        }
+        return array();
+    }
+
+    public function canSwitchBranch()
+    {
+        return (count($this->getAllowedBranches()) > 1);
+    }
+
     public function getPrintHeaderImage()
     {
 

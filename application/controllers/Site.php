@@ -15,7 +15,7 @@ class Site extends Public_Controller
             $this->db->reconnect();
         }
 
-        $this->load->model(array("staff_model", "sharecontent_model"));
+        $this->load->model(array("staff_model", "sharecontent_model", "branch_model"));
         $this->load->library('Auth');
         $this->load->library('Enc_lib');
         $this->load->library('customlib');
@@ -94,6 +94,25 @@ class Site extends Public_Controller
             if ($this->captchalib->is_captcha('login')) {
             $data['captcha_image'] = $this->captchalib->generate_captcha()['image'];
             }
+
+            // ---- multi-branch: resolve the branch this user belongs to, while still on the main schema ----
+            $username         = $login_post['email'];
+            $branch_id        = $this->branch_model->get_default_branch_id($username);
+            $main_settings    = $this->setting_model->get();
+            $main_branch_name = isset($main_settings[0]['name']) ? $main_settings[0]['name'] : 'Main Branch';
+            $allowed_branches = $this->branch_model->get_user_branches($username, $main_branch_name, isset($main_settings[0]['base_url']) ? $main_settings[0]['base_url'] : '', isset($main_settings[0]['folder_path']) ? $main_settings[0]['folder_path'] : '');
+            $branch_name      = $main_branch_name;
+            if ($branch_id != 0) {
+                $branch_row = $this->branch_model->get_branch($branch_id);
+                if ($branch_row) {
+                    $branch_name = $branch_row->name;
+                }
+            }
+            $db_group = $this->branch_model->db_group_for_branch($branch_id);
+            if ($db_group !== 'default') {
+                $this->db_manager->switch_group($db_group);
+            }
+
             $setting_result        = $this->setting_model->get();
             $print_heder_image     = $this->setting_model->get_general_purpose_header();
             $result                = $this->staff_model->checkLogin($login_post);    
@@ -157,8 +176,11 @@ class Site extends Public_Controller
                         'gender'                 => $result->gender,                     
                         'db_array'               => ['base_url'               => $setting_result[0]['base_url'],
                                                      'folder_path'            => $setting_result[0]['folder_path'],
-                                                     'db_group'=>'default'
+                                                     'db_group'               => $db_group
                                                     ],
+                        'branch_id'              => $branch_id,
+                        'branch_name'            => $branch_name,
+                        'allowed_branches'       => $allowed_branches,
 						'session_array'			=>$setting_result[0]['current_session'],													   
                         'superadmin_restriction' 	=> $setting_result[0]['superadmin_restriction'],
                         'saas_key'               	=> $setting_result[0]['saas_key'],

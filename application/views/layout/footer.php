@@ -538,7 +538,7 @@ if ($this->session->flashdata('success_msg')) {
     </div>
 </div>
 
-<?php  if (($this->module_lib->hasModule('multi_branch') && $this->module_lib->hasActive('multi_branch')) || $this->db->multi_branch)  { ?>
+<?php  if ($this->customlib->canSwitchBranch())  { ?>
 <?php $this->load->view('layout/multi_branch');?>
 <?php } ?>
 

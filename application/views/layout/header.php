@@ -234,13 +234,11 @@
  <!-- Dark/Light Mode Toggle Button -->                             
 	
                                     <?php                                      
-									if ($this->rbac->hasPrivilege('multi_branch_switch_branch', 'can_view')) {								
-                                        if (($this->module_lib->hasModule('multi_branch') && $this->module_lib->hasActive('multi_branch')) || $this->db->multi_branch) { ?>
+									if ($this->customlib->canSwitchBranch()) { ?>
                                     
-                                            <li class="cal15" data-placement="bottom" data-toggle="tooltip" title="<?php echo $this->lang->line('switch_branch'); ?>"><a href="#" data-toggle="modal" data-target="#multiBranchSwitchModal"><i class="fa fa-exchange" aria-hidden="true"></i></a></li>
+                                            <li class="cal15" data-placement="bottom" data-toggle="tooltip" title="<?php echo $this->lang->line('switch_branch'); ?>"><a href="#" data-toggle="modal" data-target="#multiBranchSwitchModal"><i class="fa fa-exchange" aria-hidden="true"></i></a> <?php echo html_escape($this->customlib->getCurrentBranchName()); ?></li>
                                     
-                                    <?php } 
-                                    }?>
+                                    <?php }?>
  
  
  <?php
