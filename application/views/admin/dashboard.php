@@ -5,6 +5,26 @@
     .sidebar-collapse #barChart{height: 100% !important;}
     .sidebar-collapse #lineChart{height: 100% !important;}
     .tooltip-inner {max-width: 135px;}
+    /* ================= POS quick actions ================= */
+    .pos-row {margin-bottom: 10px;}
+    .pos-tile {display: flex; align-items: center; justify-content: space-between; width: 100%;
+        padding: 18px 20px; border-radius: 8px; color: #fff !important; text-decoration: none !important;
+        box-shadow: 0 3px 10px rgba(0,0,0,.18); transition: transform .12s ease, box-shadow .12s ease;
+        cursor: pointer; margin-bottom: 12px; min-height: 78px;}
+    .pos-tile:hover {transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.28); color: #fff !important;}
+    .pos-tile-fees {background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);}
+    .pos-tile-attendance {background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);}
+    .pos-tile-admission {background: linear-gradient(135deg, #fd7e14 0%, #d9660a 100%);}
+    .pos-tile .pos-left {display: flex; align-items: center;}
+    .pos-tile .pos-icon {font-size: 30px; width: 52px; height: 52px; line-height: 52px; text-align: center;
+        background: rgba(255,255,255,.22); border-radius: 50%; margin-right: 14px;}
+    .pos-tile .pos-title {font-size: 21px; font-weight: 600; line-height: 1.2;}
+    .pos-tile .pos-sub {font-size: 12px; opacity: .9; display: block; font-weight: 400;}
+    .pos-tile .pos-arrow {font-size: 26px; opacity: .85;}
+    .pos-chart-box {margin-bottom: 20px;}
+    .pos-chart-box .box-header {padding: 8px 12px;}
+    .pos-chart-box .box-title {font-size: 13px; font-weight: 600;}
+    .pos-chart-box .box-body {padding: 8px 10px;}
 </style>
 <div class="content-wrapper">
     <section class="content">
@@ -77,8 +97,84 @@ foreach ($notifications as $notice_key => $notice_value) {
             <?php endforeach; ?>
 
         </div>
-		
-		
+
+        <!-- ================= POS quick actions ================= -->
+        <?php
+        $pos_fees_access       = $this->module_lib->hasActive('fees_collection') && $this->rbac->hasPrivilege('collect_fees', 'can_view');
+        $pos_attendance_access = $this->module_lib->hasActive('student_attendance') && $this->rbac->hasPrivilege('student_attendance', 'can_view');
+        $pos_admission_access  = $this->rbac->hasPrivilege('student', 'can_add');
+        if ($pos_fees_access || $pos_attendance_access || $pos_admission_access) {
+            ?>
+        <div class="row pos-row">
+            <?php if ($pos_fees_access) { ?>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <a href="<?php echo site_url('studentfee'); ?>" class="pos-tile pos-tile-fees">
+                    <span class="pos-left">
+                        <span class="pos-icon"><i class="fa fa-money"></i></span>
+                        <span class="pos-title"><?php echo $this->lang->line('collect_fees'); ?>
+                            <span class="pos-sub"><?php echo $this->lang->line('fees_collection'); ?></span>
+                        </span>
+                    </span>
+                    <span class="pos-arrow"><i class="fa fa-arrow-circle-right"></i></span>
+                </a>
+                <div class="box box-primary borderwhite pos-chart-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?php echo $this->lang->line('fees_collection') . ' - ' . $this->setting_model->getCurrentSessionName(); ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart"><canvas id="pos_fees_chart" height="150"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+
+            <?php if ($pos_attendance_access) { ?>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <a href="<?php echo site_url('admin/stuattendence/index'); ?>" class="pos-tile pos-tile-attendance">
+                    <span class="pos-left">
+                        <span class="pos-icon"><i class="fa fa-check-square-o"></i></span>
+                        <span class="pos-title"><?php echo $this->lang->line('attendance'); ?>
+                            <span class="pos-sub"><?php echo $this->lang->line('student_attendance'); ?></span>
+                        </span>
+                    </span>
+                    <span class="pos-arrow"><i class="fa fa-arrow-circle-right"></i></span>
+                </a>
+                <div class="box box-info borderwhite pos-chart-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?php echo $this->lang->line('attendance'); ?> - <?php echo date('d M Y'); ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart-responsive"><canvas id="pos_attendance_chart" height="150"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+
+            <?php if ($pos_admission_access) { ?>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <a href="<?php echo site_url('student/create'); ?>" class="pos-tile pos-tile-admission">
+                    <span class="pos-left">
+                        <span class="pos-icon"><i class="fa fa-user-plus"></i></span>
+                        <span class="pos-title"><?php echo $this->lang->line('student_admission'); ?>
+                            <span class="pos-sub"><?php echo $this->lang->line('add_student'); ?></span>
+                        </span>
+                    </span>
+                    <span class="pos-arrow"><i class="fa fa-arrow-circle-right"></i></span>
+                </a>
+                <div class="box box-warning borderwhite pos-chart-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?php echo $this->lang->line('student_admission') . ' - ' . $this->setting_model->getCurrentSessionName(); ?></h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="chart"><canvas id="pos_admission_chart" height="150"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+        </div><!--./pos-row-->
+        <?php } ?>
+        <!-- ================= /POS quick actions ================= -->
+
         <div class="row">
             <?php
 if ($this->module_lib->hasActive('fees_collection')) {
@@ -1046,5 +1142,85 @@ if ($this->rbac->hasPrivilege('fees_collection_and_expense_yearly_chart', 'can_v
                 }
         });
         });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var pos_months = <?php echo json_encode($total_month); ?>;
+
+        <?php if ($pos_fees_access) { ?>
+        if (document.getElementById("pos_fees_chart")) {
+            new Chart(document.getElementById("pos_fees_chart"), {
+                type: 'bar',
+                data: {
+                    labels: pos_months,
+                    datasets: [{
+                        label: "<?php echo $currency_symbol . ' ' . $this->lang->line('fees_collection'); ?>",
+                        backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 1,
+                        data: <?php echo json_encode($yearly_collection); ?>
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    legend: {display: false},
+                    scales: {yAxes: [{ticks: {beginAtZero: true}}]}
+                }
+            });
+        }
+        <?php } ?>
+
+        <?php if ($pos_attendance_access) { ?>
+        if (document.getElementById("pos_attendance_chart")) {
+            new Chart(document.getElementById("pos_attendance_chart"), {
+                type: 'doughnut',
+                data: {
+                    labels: ["<?php echo $this->lang->line('present'); ?>", "<?php echo $this->lang->line('late'); ?>", "<?php echo $this->lang->line('absent'); ?>", "<?php echo $this->lang->line('half_day'); ?>"],
+                    datasets: [{
+                        backgroundColor: ["#28a745", "#ffc107", "#dc3545", "#17a2b8"],
+                        data: [
+                            <?php echo (int) $attendence_data['total_present']; ?>,
+                            <?php echo (int) $attendence_data['total_late']; ?>,
+                            <?php echo (int) $attendence_data['total_absent']; ?>,
+                            <?php echo (int) $attendence_data['total_half_day']; ?>
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    legend: {position: 'bottom'},
+                    animation: {animateScale: true, animateRotate: true}
+                }
+            });
+        }
+        <?php } ?>
+
+        <?php if ($pos_admission_access) { ?>
+        if (document.getElementById("pos_admission_chart")) {
+            new Chart(document.getElementById("pos_admission_chart"), {
+                type: 'line',
+                data: {
+                    labels: pos_months,
+                    datasets: [{
+                        label: "<?php echo $this->lang->line('student_admission'); ?>",
+                        backgroundColor: 'rgba(253, 126, 20, 0.15)',
+                        borderColor: 'rgba(253, 126, 20, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        data: <?php echo json_encode($admission_monthly); ?>
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    legend: {display: false},
+                    scales: {yAxes: [{ticks: {beginAtZero: true}}]}
+                }
+            });
+        }
+        <?php } ?>
     });
 </script>

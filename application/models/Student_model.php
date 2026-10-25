@@ -16,6 +16,16 @@ class Student_model extends MY_Model
         $this->current_date    = $this->setting_model->getDateYmd();
     }
 
+    public function getAdmissionCountBetweenDate($start_date, $end_date)
+    {
+        $this->db->select('count(*) as total');
+        $this->db->from('students');
+        $this->db->where('DATE(admission_date) >=', $start_date);
+        $this->db->where('DATE(admission_date) <=', $end_date);
+        $query = $this->db->get();
+        return (int) $query->row()->total;
+    }
+
     public function getBirthDayStudents($date, $email = false, $contact_no = false)
     {
         $userdata            = $this->customlib->getUserData();

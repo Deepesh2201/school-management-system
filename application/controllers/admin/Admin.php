@@ -151,6 +151,17 @@ class Admin extends Admin_Controller
         $data['yearly_expense']    = $ex;
         $data['total_month']       = $total_month;
 
+        //====================== Admissions by month (current session) ======================
+        $admission_monthly = array();
+        $start_admission   = strtotime($year_str_month);
+        while ($start_admission <= $end) {
+            $admission_month_start = date('Y-m-d', $start_admission);
+            $admission_month_end   = date("Y-m-t", $start_admission);
+            $admission_monthly[]   = $this->student_model->getAdmissionCountBetweenDate($admission_month_start, $admission_month_end);
+            $start_admission       = strtotime("+1 month", $start_admission);
+        }
+        $data['admission_monthly'] = $admission_monthly;
+
         //======================= current month collection /expense ===================
      
         // hardcoded '01' for first day
