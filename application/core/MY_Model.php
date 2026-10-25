@@ -25,7 +25,7 @@ class MY_Model extends CI_Model {
             $agent = 'Unidentified User Agent';
         }
 
-        $platform = $this->agent->platform(); // Platform info (Windows, Linux, Mac, etc.)
+        $platform = $this->agent->platform();
 
         $insert = array(
             'message' => $message,
@@ -96,5 +96,25 @@ class MY_Model extends CI_Model {
 
         $this->db->where($condition, null, false);
         return true;
+    }
+
+    protected function get_current_branch_id()
+    {
+        $CI =& get_instance();
+        $admin = $CI->session->userdata('admin');
+        if (isset($admin['branch_id'])) {
+            return (int) $admin['branch_id'];
+        }
+        return 0;
+    }
+
+    protected function scope_branch($table = null)
+    {
+        $branch_id = $this->get_current_branch_id();
+        if ($branch_id === 0) {
+            return;
+        }
+        $field = $table ? $table . '.branch_id' : 'branch_id';
+        $this->db->where($field, $branch_id);
     }
 }

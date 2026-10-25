@@ -16,8 +16,7 @@ class Branch_model extends CI_Model
 
     public function db_group_for_branch($branch_id)
     {
-        $branch_id = (int) $branch_id;
-        return ($branch_id === self::MAIN_BRANCH_ID) ? 'default' : 'branch_' . $branch_id;
+        return 'default';
     }
 
     public function get_branches($only_active = false)

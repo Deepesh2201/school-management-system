@@ -191,7 +191,7 @@ class Branch extends Admin_Controller
 
         $admin['branch_id']            = (int) $target['id'];
         $admin['branch_name']          = $target['name'];
-        $admin['db_array']['db_group'] = $target['db_group'];
+        $admin['db_array']['db_group'] = 'default';
         $admin['db_array']['base_url'] = isset($target['base_url']) ? $target['base_url'] : '';
         $admin['db_array']['folder_path'] = isset($target['folder_path']) ? $target['folder_path'] : '';
 

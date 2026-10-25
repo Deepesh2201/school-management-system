@@ -20,6 +20,7 @@ class Student_model extends MY_Model
     {
         $this->db->select('count(*) as total');
         $this->db->from('students');
+        $this->scope_branch('students');
         $this->db->where('DATE(admission_date) >=', $start_date);
         $this->db->where('DATE(admission_date) <=', $end_date);
         $query = $this->db->get();
