@@ -1080,6 +1080,17 @@ class Customlib
         return false;
     }
 
+    public function canManageBranches()
+    {
+        $admin = $this->CI->session->userdata('admin');
+        if ($admin && isset($admin['roles']) && is_array($admin['roles']) && count($admin['roles']) > 0) {
+            $roles = $admin['roles'];
+            $role_key = key($roles);
+            return ($role_key === 'Super Admin' || $role_key === 'Admin' || (isset($roles[$role_key]) && ($roles[$role_key] == 7 || $roles[$role_key] == 1)));
+        }
+        return false;
+    }
+
     public function getPrintHeaderImage()
     {
 

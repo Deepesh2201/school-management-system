@@ -1309,7 +1309,7 @@ class Schsettings extends Admin_Controller
         if (!$this->rbac->hasPrivilege('general_setting', 'can_view')) {
             access_denied();
         }
-        if (!$this->customlib->isSuperAdmin()) {
+        if (!$this->customlib->canManageBranches()) {
             access_denied();
         }
 
@@ -1331,7 +1331,7 @@ class Schsettings extends Admin_Controller
         if (!$this->rbac->hasPrivilege('general_setting', 'can_view')) {
             access_denied();
         }
-        if (!$this->customlib->isSuperAdmin()) {
+        if (!$this->customlib->canManageBranches()) {
             access_denied();
         }
 

@@ -443,6 +443,30 @@ pdfMake.fonts = jsonData;
             });
 
 
+        if (!window.__posTreeToggleBound) {
+            window.__posTreeToggleBound = true;
+            $('.sidebar li a').off('click');
+            $(document).off('click', '.sidebar li a');
+            $(document).on('click.posTreeToggle', '.sidebar li a', function (e) {
+                var $menu = $(this).next();
+                if (!$menu.hasClass('treeview-menu')) {
+                    return;
+                }
+                e.preventDefault();
+                var $li = $(this).parent('li');
+                if ($li.hasClass('menu-open')) {
+                    $menu.slideUp(200);
+                    $li.removeClass('menu-open');
+                    $menu.removeClass('menu-open');
+                } else {
+                    $li.siblings('li.treeview.menu-open').removeClass('menu-open').children('ul.treeview-menu').slideUp(200);
+                    $li.addClass('menu-open');
+                    $menu.addClass('menu-open');
+                    $menu.slideDown(200);
+                }
+            });
+        }
+
         });
     </script>
 </body>
