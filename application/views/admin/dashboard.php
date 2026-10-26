@@ -917,8 +917,8 @@ if ($s == 8) {
                     }
             }
     });
-   <?php
-}if (($this->rbac->hasPrivilege('expense_donut_graph', 'can_view')) && ($this->module_lib->hasActive('expense'))) {
+   <?php } ?>
+<?php if (($this->rbac->hasPrivilege('expense_donut_graph', 'can_view')) && ($this->module_lib->hasActive('expense'))) {
     ?>
     new Chart(document.getElementById("doughnut-chart1"), {
     type: 'doughnut',
@@ -954,176 +954,10 @@ if ($ss == 8) {
                             animateRotate: true
                     }
             }
-    });
-<?php
-}
-if (($this->module_lib->hasActive('fees_collection')) || ($this->module_lib->hasActive('expense')) || ($this->module_lib->hasActive('income'))) {
-    ?>
-        $(function () {
-        var areaChartOptions = {
-        showScale: true,
-                scaleShowGridLines: false,
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                scaleGridLineWidth: 1,
-                scaleShowHorizontalLines: true,
-                scaleShowVerticalLines: true,
-                bezierCurve: true,
-                bezierCurveTension: 0.3,
-                pointDot: false,
-                pointDotRadius: 4,
-                pointDotStrokeWidth: 1,
-                pointHitDetectionRadius: 20,
-                datasetStroke: true,
-                datasetStrokeWidth: 2,
-                datasetFill: true,
-                maintainAspectRatio: true,
-                responsive: true
-        };
-        var bar_chart = "<?php echo $bar_chart ?>";
-        var line_chart = "<?php echo $line_chart ?>";
-         <?php
-if ($this->rbac->hasPrivilege('fees_collection_and_expense_yearly_chart', 'can_view')) {
-        ?>
-        if (line_chart) {
+});
+<?php } ?>
 
-        var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
-        var lineChart = new Chart(lineChartCanvas);
-        var lineChartOptions = areaChartOptions;
-        lineChartOptions.datasetFill = false;
-        var yearly_collection_array = <?php echo json_encode($yearly_collection) ?>;
-        var yearly_expense_array = <?php echo json_encode($yearly_expense) ?>;
-
-        console.log(yearly_expense_array);
-        var total_month = <?php echo json_encode($total_month) ?>;
-        var areaChartData_expense_Income = {
-        labels: total_month,
-                datasets: [
-				<?php if(($this->module_lib->hasActive('expense'))){?>												   
-                {
-                label: "Expense",
-                        fillColor: "rgba(215, 44, 44, 0.7)",
-                        strokeColor: "rgba(215, 44, 44, 0.7)",
-                        pointColor: "rgba(233, 30, 99, 0.9)",
-                        pointStrokeColor: "#c1c7d1",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: yearly_expense_array
-                },
-                <?php } ?>
-             <?php if(($this->module_lib->hasActive('income'))){?> 
-                {
-                label: "Collection",
-                        fillColor: "rgba(102, 170, 24, 0.6)",
-                        strokeColor: "rgba(102, 170, 24, 0.6)",
-                        pointColor: "rgba(102, 170, 24, 0.9)",
-                        pointStrokeColor: "rgba(102, 170, 24, 0.6)",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(60,141,188,1)",
-                        data: yearly_collection_array
-                }
-				 <?php } ?>  
-                ]
-        };
-        lineChart.Line(areaChartData_expense_Income, lineChartOptions);
-        }
-
-        var current_month_days = <?php echo json_encode($current_month_days) ?>;
-        var days_collection = <?php echo json_encode($days_collection) ?>;
-        var days_expense = <?php echo json_encode($days_expense) ?>;
-        var areaChartData_classAttendence = {
-        labels: current_month_days,
-                datasets: [
-				 <?php if(($this->module_lib->hasActive('income'))){?>												  
-                {
-                label: "Electronics",
-                        fillColor: "rgba(102, 170, 24, 0.6)",
-                        strokeColor: "rgba(102, 170, 24, 0.6)",
-                        pointColor: "rgba(102, 170, 24, 0.6)",
-                        pointStrokeColor: "#c1c7d1",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: days_collection
-                },
-				<?php }if(($this->module_lib->hasActive('expense'))){?>											   
-                {
-                label: "Digital Goods",
-                        fillColor: "rgba(233, 30, 99, 0.9)",
-                        strokeColor: "rgba(233, 30, 99, 0.9)",
-                        pointColor: "rgba(233, 30, 99, 0.9)",
-                        pointStrokeColor: "rgba(233, 30, 99, 0.9)",
-                        pointHighlightFill: "rgba(233, 30, 99, 0.9)",
-                        pointHighlightStroke: "rgba(60,141,188,1)",
-                        data: days_expense
-                }
-				<?php } ?> 
-                ]
-        };
-         
-          <?php }if ($this->rbac->hasPrivilege('fees_collection_and_expense_monthly_chart', 'can_view')) {?>
-        if (bar_chart) {
-            var current_month_days = <?php echo json_encode($current_month_days) ?>;
-        var days_collection = <?php echo json_encode($days_collection) ?>;
-        var days_expense = <?php echo json_encode($days_expense) ?>;
-
-        var areaChartData_classAttendence = {
-        labels: current_month_days,
-                datasets: [
-				<?php if(($this->module_lib->hasActive('income'))){?>											 
-                {
-                label: "Electronics",
-                        fillColor: "rgba(102, 170, 24, 0.6)",
-                        strokeColor: "rgba(102, 170, 24, 0.6)",
-                        pointColor: "rgba(102, 170, 24, 0.6)",
-                        pointStrokeColor: "#c1c7d1",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: days_collection
-                },
-                    <?php } ?>
-                <?php if(($this->module_lib->hasActive('expense'))){ ?>												   
-                {
-                label: "Digital Goods",
-                        fillColor: "rgba(233, 30, 99, 0.9)",
-                        strokeColor: "rgba(233, 30, 99, 0.9)",
-                        pointColor: "rgba(233, 30, 99, 0.9)",
-                        pointStrokeColor: "rgba(233, 30, 99, 0.9)",
-                        pointHighlightFill: "rgba(233, 30, 99, 0.9)",
-                        pointHighlightStroke: "rgba(60,141,188,1)",
-                        data: days_expense
-                }
-				<?php } ?> 
-                ]
-        };
-        var barChartCanvas = $("#barChart").get(0).getContext("2d");
-        var barChart = new Chart(barChartCanvas);
-        var barChartData = areaChartData_classAttendence;
-        // barChartData.datasets[1].fillColor = "rgba(233, 30, 99, 0.9)";
-        // barChartData.datasets[1].strokeColor = "rgba(233, 30, 99, 0.9)";
-        // barChartData.datasets[1].pointColor = "rgba(233, 30, 99, 0.9)";
-        var barChartOptions = {
-        scaleBeginAtZero: true,
-                scaleShowGridLines: true,
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                scaleGridLineWidth: 1,
-                scaleShowHorizontalLines: false,
-                scaleShowVerticalLines: false,
-                barShowStroke: true,
-                barStrokeWidth: 2,
-                barValueSpacing: 5,
-                barDatasetSpacing: 1,
-                responsive: true,
-                maintainAspectRatio: true
-        };
-        barChartOptions.datasetFill = false;
-        barChart.Bar(barChartData, barChartOptions);
-        }
-         <?php }?>
-        });
-    <?php
-}
-?>
-
-    $(document).ready(function () {
+$(document).ready(function () {
         $(document).on('click', '.close_notice', function () {
         var data = $(this).data();
         $.ajax({

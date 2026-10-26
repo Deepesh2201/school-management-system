@@ -45,6 +45,12 @@
                 <a class="<?php echo set_SubSubmenu('schsettings/miscellaneous'); ?>" href="<?php echo site_url('schsettings/miscellaneous') ?>"><?php echo $this->lang->line('miscellaneous'); ?></a>
             </li>
             
+            <?php if ($this->customlib->isSuperAdmin()) { ?>
+            <li class="<?php echo set_SubSubmenu('schsettings/branch'); ?>">
+                <a class="<?php echo set_SubSubmenu('schsettings/branch'); ?>" href="<?php echo site_url('schsettings/branch') ?>"><?php echo $this->lang->line('branch_management'); ?></a>
+            </li>
+            <?php } ?>
+            
         </ul>
     </div>
 </div><!--./col-md-3--> 

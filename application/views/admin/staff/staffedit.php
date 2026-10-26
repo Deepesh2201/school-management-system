@@ -116,6 +116,20 @@ if ($staff["department"] == $value["id"]) {
                                                 </div>
                                             </div>
                                         <?php }?>
+                                    <?php if ($this->customlib->isSuperAdmin() && isset($branches) && !empty($branches)) { ?>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('branch'); ?></label>
+                                            <select id="branch_id" name="branch_id" class="form-control">
+                                                <option value="0" <?php if ($staff["branch_id"] == 0) echo "selected"; ?>><?php echo $this->lang->line('main_branch'); ?></option>
+                                                <?php foreach ($branches as $branch): ?>
+                                                    <option value="<?php echo $branch->id ?>" <?php if ($staff["branch_id"] == $branch->id) echo "selected"; ?>><?php echo $branch->name ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('branch_id'); ?></span>
+                                        </div>
+                                    </div>
+                                    <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">

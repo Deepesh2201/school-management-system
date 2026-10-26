@@ -1304,6 +1304,66 @@ class Schsettings extends Admin_Controller
         $this->load->view('layout/footer', $data);
     }
 
+    public function branch()
+    {
+        if (!$this->rbac->hasPrivilege('general_setting', 'can_view')) {
+            access_denied();
+        }
+        if (!$this->customlib->isSuperAdmin()) {
+            access_denied();
+        }
+
+        $this->session->set_userdata('top_menu', 'System Settings');
+        $this->session->set_userdata('sub_menu', 'schsettings/index');
+        $this->session->set_userdata('subsub_menu', 'schsettings/branch');
+
+        $this->load->model('branch_model');
+        $branches = $this->branch_model->get_branches();
+        $data['branches'] = $branches;
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('setting/branch', $data);
+        $this->load->view('layout/footer', $data);
+    }
+
+    public function branch_add()
+    {
+        if (!$this->rbac->hasPrivilege('general_setting', 'can_view')) {
+            access_denied();
+        }
+        if (!$this->customlib->isSuperAdmin()) {
+            access_denied();
+        }
+
+        $this->form_validation->set_rules('name', $this->lang->line('branch_name'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('base_url', $this->lang->line('base_url'), 'trim|required|xss_clean|valid_url');
+
+        if ($this->form_validation->run() == false) {
+            $data = array(
+                'name' => form_error('name'),
+                'base_url' => form_error('base_url'),
+            );
+            $array = array('success' => false, 'error' => $data);
+            echo json_encode($array);
+        } else {
+            $this->load->model('branch_model');
+            $data = array(
+                'name'          => $this->input->post('name'),
+                'base_url'      => $this->input->post('base_url'),
+                'folder_path'   => $this->input->post('folder_path'),
+                'hostname'      => '127.0.0.1',
+                'username'      => 'root',
+                'password'      => '',
+                'database_name' => 'artscampuspat_erp',
+                'is_verified'   => 1,
+                'is_active'     => 1,
+                'created_at'    => date('Y-m-d H:i:s'),
+            );
+            $branch_id = $this->branch_model->add_branch($data);
+            echo json_encode(array('success' => true, 'msg' => $this->lang->line('success_message'), 'branch_id' => $branch_id));
+        }
+    }
+
     public function savegoogledrive()
     {
 

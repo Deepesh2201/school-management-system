@@ -413,6 +413,14 @@ class Staff extends Admin_Controller
         $data["contract_type"]       = $this->contract_type;
         $data['sch_setting']         = $this->sch_setting_detail;
         $data['staffid_auto_insert'] = $this->sch_setting_detail->staffid_auto_insert;
+        
+        // Branch for multi-branch support (Super Admin only)
+        if ($this->customlib->isSuperAdmin()) {
+            $this->load->model('branch_model');
+            $branches = $this->branch_model->get_branches(true); // only active
+            $data['branches'] = $branches;
+        }
+        
         $custom_fields               = $this->customfield_model->getByBelong('staff');
         foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
             if ($custom_fields_value['validation']) {
@@ -584,6 +592,14 @@ class Staff extends Admin_Controller
 
                 if (isset($contract_type)) {
                     $data_insert['contract_type'] = $contract_type;
+                }
+
+                // Branch assignment (Super Admin only)
+                if ($this->customlib->isSuperAdmin()) {
+                    $branch_id = (int) $this->input->post('branch_id');
+                    if ($branch_id > 0) {
+                        $data_insert['branch_id'] = $branch_id;
+                    }
                 }
 
                 if (isset($shift)) {
@@ -1117,6 +1133,13 @@ class Staff extends Admin_Controller
         $data["contract_type"]       = $this->contract_type;
         $data['sch_setting']         = $this->sch_setting_detail;
         $data['staffid_auto_insert'] = $this->sch_setting_detail->staffid_auto_insert;
+        
+        // Branch for multi-branch support (Super Admin only)
+        if ($this->customlib->isSuperAdmin()) {
+            $this->load->model('branch_model');
+            $branches = $this->branch_model->get_branches(true);
+            $data['branches'] = $branches;
+        }
         if ($staff["role_id"] == 7) {
             $a = 0;
             if ($userdata["email"] == $staff["email"]) {
@@ -1303,6 +1326,14 @@ class Staff extends Admin_Controller
 
                     if ($staff['image'] != '') {
                         $this->media_storage->filedelete($staff['image'], "uploads/staff_images");
+                    }
+                }
+
+                // Branch assignment (Super Admin only)
+                if ($this->customlib->isSuperAdmin()) {
+                    $branch_id = (int) $this->input->post('branch_id');
+                    if ($branch_id >= 0) {
+                        $data1['branch_id'] = $branch_id;
                     }
                 }
 

@@ -113,6 +113,20 @@ foreach ($roles as $key => $role) {
                                                 </div>
                                             </div>
                                         <?php }?>
+                                    <?php if ($this->customlib->isSuperAdmin() && isset($branches) && !empty($branches)) { ?>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('branch'); ?></label>
+                                            <select id="branch_id" name="branch_id" class="form-control">
+                                                <option value="0"><?php echo $this->lang->line('main_branch'); ?></option>
+                                                <?php foreach ($branches as $branch): ?>
+                                                    <option value="<?php echo $branch->id ?>" <?php echo set_select('branch_id', $branch->id, set_value('branch_id')); ?>><?php echo $branch->name ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('branch_id'); ?></span>
+                                        </div>
+                                    </div>
+                                    <?php } ?>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">

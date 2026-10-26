@@ -1069,6 +1069,17 @@ class Customlib
         return (count($this->getAllowedBranches()) > 1);
     }
 
+    public function isSuperAdmin()
+    {
+        $admin = $this->CI->session->userdata('admin');
+        if ($admin && isset($admin['roles'])) {
+            $roles = $admin['roles'];
+            $role_key = key($roles);
+            return ($role_key === 'Super Admin' || $roles[$role_key] == 7);
+        }
+        return false;
+    }
+
     public function getPrintHeaderImage()
     {
 
