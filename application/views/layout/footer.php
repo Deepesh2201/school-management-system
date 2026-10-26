@@ -7,6 +7,18 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var posHeaderEl = document.querySelector('.main-header');
+        function posSetHeaderOffset() {
+            var h = posHeaderEl ? posHeaderEl.offsetHeight : 0;
+            document.documentElement.style.setProperty('--pos-header-height', ((h ? h : 50) + 16) + 'px');
+        }
+        posSetHeaderOffset();
+        window.addEventListener('load', posSetHeaderOffset);
+        window.addEventListener('resize', posSetHeaderOffset);
+    });
+</script>
 <?php
 
 $print_header_image           = $this->customlib->getPrintHeaderImage();

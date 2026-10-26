@@ -16992,7 +16992,7 @@ input.total_paying:focus,
     z-index: 1030;
 }
 
-.content-wrapper {padding-top: 50px;}
+.content-wrapper {padding-top: var(--pos-header-height, 66px);}
 
 .main-sidebar::-webkit-scrollbar {width: 6px;}
 .main-sidebar::-webkit-scrollbar-thumb {background: var(--bs-scroll-bg);border-radius: 2px; }
@@ -17007,7 +17007,7 @@ input.total_paying:focus,
         overflow-x: hidden !important;
         z-index: 810;
         padding-top: 0px !important;
-        top: 50px;
+        top: var(--pos-header-height, 66px);
         padding-bottom: 50px;
     }
     .sidebar-mini.sidebar-collapse .main-sidebar {
