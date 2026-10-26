@@ -548,7 +548,7 @@ if ( ! function_exists('redirect'))
 			{
 				$code = ($_SERVER['REQUEST_METHOD'] !== 'GET')
 					? 303	// reference: http://en.wikipedia.org/wiki/Post/Redirect/Get
-					: 307;
+					: 302;
 			}
 			else
 			{

@@ -1,4 +1,9 @@
-<div class="col-lg-9 col-md-9 col-sm-9">
+<div class="content-wrapper" style="min-height: 348px;">
+    <section class="content">
+        <div class="row">
+            <?php $this->load->view('setting/_settingmenu'); ?>
+            <!-- left column -->
+            <div class="col-lg-9 col-md-8 col-sm-8">
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title titlefix"><i class="fa fa-sitemap"></i> <?php echo $this->lang->line('branch_management'); ?></h3>
@@ -38,6 +43,9 @@
         </div>
     </div>
 </div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 
 <!-- Add Branch Modal -->
 <div class="modal fade" id="addBranchModal" tabindex="-1" role="dialog" aria-labelledby="addBranchModalLabel">

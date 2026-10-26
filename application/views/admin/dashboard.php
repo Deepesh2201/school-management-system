@@ -979,8 +979,7 @@ $(document).ready(function () {
     });
 </script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var pos_months = <?php echo json_encode($total_month); ?>;
+    var pos_months = <?php echo json_encode($total_month); ?>;
 
         <?php if ($pos_fees_access) { ?>
         if (document.getElementById("pos_fees_chart")) {
@@ -1056,5 +1055,4 @@ $(document).ready(function () {
             });
         }
         <?php } ?>
-    });
 </script>
